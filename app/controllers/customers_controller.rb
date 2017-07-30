@@ -1,8 +1,9 @@
 class CustomersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  
   def index
-    @q = Customer.ransack(params[:q])
+    @q = Customer.includes(:post, :company, :comments).ransack(params[:q])
     @customers = @q.result.page(params[:page])
   end
 
